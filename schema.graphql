@@ -1,0 +1,103 @@
+type Nft @entity {
+  id: ID!
+  symbol: String!
+  name: String!
+  uri: String
+  metadata: NftMetadata
+  sender: String!
+  minter: String
+  tokens: [NftToken] @derivedFrom(field: "nft")
+  #owners: [NftTokenOwner] @derivedFrom(field: "nft")
+  #burns: [NftTokenBurn] @derivedFrom(field: "nft")
+  blockHeight: BigInt!
+  txHash: String!
+  createdAt: Date!
+}
+
+type NftToken @entity {
+  id: ID!
+  nft: Nft!
+  tokenId: String!
+  minter: String!
+  owner: String!
+  transfers: [NftTokenTransfer] @derivedFrom(field: "nftToken")
+  burn: NftTokenBurn @derivedFrom(field: "nftToken")
+  blockHeight: BigInt!
+  txHash: String!
+  createdAt: Date!
+  updatedAt: Date!
+}
+
+type NftTokenTransfer @entity {
+  id: ID!
+  nft: Nft!
+  nftToken: NftToken!
+  from: String!
+  to: String!
+  blockHeight: BigInt!
+  txHash: String!
+  createdAt: Date!
+}
+
+type NftTokenBurn @entity {
+  id: ID!
+  nft: Nft!
+  nftToken: NftToken!
+  burner: String!
+  blockHeight: BigInt!
+  txHash: String!
+  createdAt: Date!
+}
+
+type NftMetadata @entity {
+  id: ID!
+  schema: String
+  name: String
+  description: String
+  image: String
+  animation_url: String
+  external_url: String
+  attributes: [NftAttribute]
+  bitsong: NftTrackMetadata
+}
+
+type NftAttribute @jsonField {
+  trait_type: String
+  display_type: String
+  value: String
+}
+
+type NftTrackMetadata @jsonField {
+  id: String
+  artwork: String
+  audio: String
+  video: String
+  title: String
+  titleLocale: String
+  description: String
+  artists: [NftTrackEntityDetail]
+  version: String
+  genre: String
+  liveRecording: Boolean
+  pLine: String
+  cLine: String
+  country: String
+  previousRelease: String
+  isrc: String
+  iswc: String
+  duration: BigInt
+  license: String
+  previewStartTime: BigInt
+  previewDuration: BigInt
+  lyrics: String
+  lyricsLocale: String
+  explicit: String
+  authors_publishers: [NftTrackEntityDetail]
+  label: String
+}
+
+type NftTrackEntityDetail @jsonField {
+  address: String
+  name: String
+  role: String
+}
