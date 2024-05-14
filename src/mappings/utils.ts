@@ -38,7 +38,7 @@ export const fetchMetadata = async (uri: string): Promise<NftSchema | TrackSchem
   logger.info(`Fetching metadata from ${uri}`);
 
   try {
-    uri = uri.replace("ipfs://", "https://yellow-hilarious-jay-665.mypinata.cloud/ipfs/");
+    uri = uri.replace("ipfs://", "https://media-api.bitsong.studio/ipfs/");
 
     const response = await fetch(uri);
     const data = await response.json();
