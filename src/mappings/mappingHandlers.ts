@@ -87,6 +87,12 @@ export async function handleMint(event: CosmosEvent): Promise<void> {
       logger.info(`Token ID: ${attribute.tokenId}`)
       logger.info(`---------------------------------`)
 
+      const nft = await Nft.get(attribute.contractAddress);
+      if (!nft) {
+        logger.error(`NFT ${attribute.contractAddress} not found`)
+        return
+      }
+
       const nftToken = NftToken.create({
         id: `${attribute.contractAddress}:${attribute.tokenId}`,
         nftId: attribute.contractAddress,
